@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
+import { motion } from 'framer-motion';
 
 /** Brand story page — scroll-reveal sections, timeline, values grid, CTA. */
 export function StoryPage() {
@@ -45,7 +46,13 @@ export function StoryPage() {
     ];
 
     return (
-        <div className="font-sans bg-[#fdfcf9] dark:bg-[#0d0905] text-[#1a0f05] dark:text-[#f5ede0] min-h-screen pt-24">
+        <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.02 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="font-sans bg-[#fdfcf9] dark:bg-[#0d0905] text-[#1a0f05] dark:text-[#f5ede0] min-h-screen pt-24"
+        >
             <Helmet>
                 <title>Our Story | Raw Pressery Alphonso Mango</title>
                 <meta name="description" content="Discover the origins of our 100% pure cold-pressed Alphonso Mango juice. Sourced straight from Ratnagiri, India." />
@@ -230,6 +237,6 @@ export function StoryPage() {
         .reveal.visible { opacity: 1; transform: translateY(0); }
         @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
       `}</style>
-        </div>
+        </motion.div>
     );
 }

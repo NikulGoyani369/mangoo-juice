@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { Nav } from './components/Nav/Nav';
 import { FluidCursor } from './components/FluidCursor/FluidCursor';
 import { Toast } from './components/Toast/Toast';
@@ -57,21 +58,41 @@ export default function App() {
             />
 
             <main>
-                <Routes>
-                    <Route path="/" element={
-                        <HomePage
-                            quantity={quantity}
-                            cartCount={cartCount}
-                            isDark={isDark}
-                            setQuantity={setQuantity}
-                            addToCart={addToCart}
-                            showToast={showToast}
-                            openCheckout={openCheckout}
-                        />
-                    } />
-                    <Route path="/story" element={<StoryPage />} />
-                </Routes>
+                <AnimatedRoutes
+                    quantity={quantity}
+                    cartCount={cartCount}
+                    isDark={isDark}
+                    setQuantity={setQuantity}
+                    addToCart={addToCart}
+                    showToast={showToast}
+                    openCheckout={openCheckout}
+                />
             </main>
         </HashRouter>
+    );
+}
+
+function AnimatedRoutes({
+    quantity, cartCount, isDark, setQuantity, addToCart, showToast, openCheckout
+}: any) {
+    const location = useLocation();
+
+    return (
+        <AnimatePresence mode="wait">
+            <Routes location={location} key={location.pathname}>
+                <Route path="/" element={
+                    <HomePage
+                        quantity={quantity}
+                        cartCount={cartCount}
+                        isDark={isDark}
+                        setQuantity={setQuantity}
+                        addToCart={addToCart}
+                        showToast={showToast}
+                        openCheckout={openCheckout}
+                    />
+                } />
+                <Route path="/story" element={<StoryPage />} />
+            </Routes>
+        </AnimatePresence>
     );
 }
