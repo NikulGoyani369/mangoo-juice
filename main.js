@@ -555,8 +555,238 @@
         btn.addEventListener('click', toggleDarkMode);
     }
 
+
     /* ═══════════════════════════════════════════════════════════
-       12. BOOTSTRAP
+       12. CHECKOUT MODAL
+    ═══════════════════════════════════════════════════════════ */
+
+    /**
+     * Returns the current geo-priced sale text (e.g. "₹120" or "$1.99").
+     * @returns {string}
+     */
+    function getCurrentPriceText() {
+        const el = document.getElementById('sale-price');
+        return el ? el.textContent.trim() : '₹120';
+    }
+
+    /**
+     * Updates all price displays in the checkout panel.
+     * @param {number} qty
+     */
+    function updateCheckoutPrices(qty) {
+        const unitText = getCurrentPriceText();
+        const unitEl = document.getElementById('co-unit-price');
+        const subtotEl = document.getElementById('co-subtotal');
+        const totalEl = document.getElementById('co-total');
+        const formTotal = document.getElementById('co-form-total-display');
+        const hiddenQty = document.getElementById('co-form-qty');
+        const hiddenPrc = document.getElementById('co-form-price');
+
+        if (unitEl) { unitEl.textContent = unitText; }
+        if (subtotEl) { subtotEl.textContent = `${qty} × ${unitText}`; }
+        if (totalEl) { totalEl.textContent = `${qty} × ${unitText}`; }
+        if (formTotal) { formTotal.textContent = `${qty} × ${unitText}`; }
+        if (hiddenQty) { hiddenQty.value = String(qty); }
+        if (hiddenPrc) { hiddenPrc.value = `${qty} × ${unitText}`; }
+    }
+
+    /** Opens the checkout modal with a slide-up animation and syncs quantity. */
+    function openCheckoutModal() {
+        const overlay = document.getElementById('checkout-overlay');
+        const panel = document.getElementById('checkout-panel');
+        const stepSummary = document.getElementById('checkout-step-summary');
+        const stepForm = document.getElementById('checkout-step-form');
+        const stepSuccess = document.getElementById('checkout-step-success');
+        const coQtyDis = document.getElementById('co-qty-display');
+
+        if (!overlay || !panel) { return; }
+
+        // Always reset to step 1
+        if (stepSummary) { stepSummary.style.display = 'block'; }
+        if (stepForm) { stepForm.style.display = 'none'; }
+        if (stepSuccess) { stepSuccess.style.display = 'none'; }
+        if (coQtyDis) { coQtyDis.textContent = cartCount || 1; }
+
+        updateCheckoutPrices(cartCount || 1);
+
+        overlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => {
+            overlay.style.opacity = '1';
+            panel.style.transform = 'translateY(0)';
+        });
+    }
+
+    /** Closes the checkout modal with a slide-down animation. */
+    function closeCheckoutModal() {
+        const overlay = document.getElementById('checkout-overlay');
+        const panel = document.getElementById('checkout-panel');
+        if (!overlay || !panel) { return; }
+        overlay.style.opacity = '0';
+        panel.style.transform = 'translateY(100%)';
+        document.body.style.overflow = '';
+        setTimeout(() => { overlay.style.display = 'none'; }, 400);
+    }
+
+    /**
+     * Shows the success screen after a confirmed order.
+     * Resets the cart and shows a toast.
+     * @param {string|null} name - Customer name
+     * @param {number}      qty  - Quantity ordered
+     */
+    function showOrderSuccess(name, qty) {
+        const stepForm = document.getElementById('checkout-step-form');
+        const stepSuccess = document.getElementById('checkout-step-success');
+        const successName = document.getElementById('co-success-name');
+        const successDet = document.getElementById('co-success-detail');
+        const panel = document.getElementById('checkout-panel');
+        const submitBtn = document.getElementById('co-submit-btn');
+
+        if (stepForm) { stepForm.style.display = 'none'; }
+        if (stepSuccess) { stepSuccess.style.display = 'block'; }
+        if (panel) { panel.scrollTop = 0; }
+
+        const priceText = getCurrentPriceText();
+        if (successName) {
+            successName.textContent = `Thank you${name ? ', ' + name : ''}! We'll confirm your order via email shortly.`;
+        }
+        if (successDet) {
+            successDet.innerHTML =
+                `📦 <strong>${qty} bottle${qty > 1 ? 's' : ''}</strong> of Raw Pressery Alphonso Mango Juice<br>
+                 💰 <strong>${qty} × ${priceText}</strong><br>
+                 🚚 FREE delivery · Expected in 2–4 business days<br>
+                 ✅ Confirmation email on its way`;
+        }
+        if (submitBtn) {
+            submitBtn.textContent = '🥭 Place Order';
+            submitBtn.style.opacity = '1';
+            submitBtn.disabled = false;
+        }
+
+        // Reset cart
+        cartCount = 0;
+        updateCartBadge();
+        showToast('Order placed! 🥭 Check your email for confirmation.');
+    }
+
+    /** Wires up all checkout modal interactions. */
+    function initCheckout() {
+        let modalQty = 1;
+
+        // Open modal from cart button (nav bar)
+        const cartBtn = document.getElementById('cart-btn');
+        if (cartBtn) {
+            cartBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (cartCount > 0) {
+                    modalQty = cartCount;
+                    openCheckoutModal();
+                } else {
+                    showToast('Add a bottle to your cart first! 🥭');
+                }
+            });
+        }
+
+        // Close on backdrop click
+        const overlay = document.getElementById('checkout-overlay');
+        if (overlay) {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) { closeCheckoutModal(); }
+            });
+        }
+
+        // Close button (✕)
+        const closeBtn = document.getElementById('checkout-close');
+        if (closeBtn) { closeBtn.addEventListener('click', closeCheckoutModal); }
+
+        // Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') { closeCheckoutModal(); }
+        });
+
+        // Modal quantity stepper
+        const coQtyDis = document.getElementById('co-qty-display');
+        const coMinus = document.getElementById('co-qty-minus');
+        const coPlus = document.getElementById('co-qty-plus');
+
+        const setModalQty = (val) => {
+            modalQty = Math.max(1, val);
+            if (coQtyDis) { coQtyDis.textContent = modalQty; }
+            updateCheckoutPrices(modalQty);
+        };
+
+        if (coMinus) { coMinus.addEventListener('click', () => setModalQty(modalQty - 1)); }
+        if (coPlus) { coPlus.addEventListener('click', () => setModalQty(modalQty + 1)); }
+
+        // Step 1 → Step 2
+        const proceedBtn = document.getElementById('co-proceed-btn');
+        if (proceedBtn) {
+            proceedBtn.addEventListener('click', () => {
+                const s1 = document.getElementById('checkout-step-summary');
+                const s2 = document.getElementById('checkout-step-form');
+                if (s1) { s1.style.display = 'none'; }
+                if (s2) { s2.style.display = 'block'; }
+                const panel = document.getElementById('checkout-panel');
+                if (panel) { panel.scrollTop = 0; }
+            });
+        }
+
+        // Step 2 → Step 1 (back button)
+        const backBtn = document.getElementById('co-back-btn');
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                const s1 = document.getElementById('checkout-step-summary');
+                const s2 = document.getElementById('checkout-step-form');
+                if (s1) { s1.style.display = 'block'; }
+                if (s2) { s2.style.display = 'none'; }
+            });
+        }
+
+        // Form submission via fetch + Formspree (no page reload)
+        const form = document.getElementById('checkout-form');
+        const submitBtn = document.getElementById('co-submit-btn');
+        if (form && submitBtn) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitBtn.textContent = 'Placing order…';
+                submitBtn.style.opacity = '0.7';
+                submitBtn.disabled = true;
+
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' },
+                })
+                    .then((res) => {
+                        if (res.ok) {
+                            showOrderSuccess(
+                                form.querySelector('#co-name') ? form.querySelector('#co-name').value : null,
+                                modalQty
+                            );
+                        } else {
+                            showToast('Order failed — please try again.');
+                            submitBtn.textContent = '🥭 Place Order';
+                            submitBtn.style.opacity = '1';
+                            submitBtn.disabled = false;
+                        }
+                    })
+                    .catch(() => {
+                        showToast('Network error — check your connection.');
+                        submitBtn.textContent = '🥭 Place Order';
+                        submitBtn.style.opacity = '1';
+                        submitBtn.disabled = false;
+                    });
+            });
+        }
+
+        // Done / Continue Shopping
+        const doneBtn = document.getElementById('co-done-btn');
+        if (doneBtn) { doneBtn.addEventListener('click', closeCheckoutModal); }
+    }
+
+    /* ═══════════════════════════════════════════════════════════
+       13. BOOTSTRAP
+
     ═══════════════════════════════════════════════════════════ */
 
     /**
@@ -571,6 +801,7 @@
         initQuantityStepper();
         initStarRating();
         initDarkMode();
+        initCheckout();
     }
 
     init();

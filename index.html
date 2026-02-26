@@ -653,6 +653,233 @@
     <!-- Dark Mode Toggle -->
     <button id="dark-mode-toggle" aria-label="Toggle dark mode">🌙</button>
 
+    <!-- ═══════════════════════════════════════════════
+         CHECKOUT MODAL
+    ═══════════════════════════════════════════════ -->
+    <div id="checkout-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-title"
+        style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.7); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); opacity:0; transition:opacity 0.35s ease;">
+
+        <div id="checkout-panel" style="position:absolute; bottom:0; left:0; right:0; max-height:92vh; overflow-y:auto;
+                   background:var(--color-bg,#fdfcf9); border-radius:28px 28px 0 0;
+                   transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+                   box-shadow:0 -20px 80px rgba(0,0,0,0.25);">
+
+            <!-- Handle -->
+            <div style="width:44px;height:5px;border-radius:99px;background:rgba(26,15,5,0.15);margin:16px auto 0;">
+            </div>
+
+            <!-- Header -->
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:24px 28px 0;">
+                <h2 id="checkout-title"
+                    style="font-size:1.5rem;font-weight:900;letter-spacing:-0.02em;color:var(--color-text,#1a0f05);">
+                    Your Order 🥭
+                </h2>
+                <button id="checkout-close" aria-label="Close checkout" style="width:36px;height:36px;border-radius:50%;border:none;background:rgba(26,15,5,0.07);
+                           font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;
+                           color:var(--color-text,#1a0f05);transition:background 0.2s;">✕</button>
+            </div>
+
+            <!-- ── STEP 1: Order Summary ── -->
+            <div id="checkout-step-summary" style="padding:20px 28px;">
+
+                <!-- Product Row -->
+                <div style="display:flex;align-items:center;gap:16px;padding:20px;border-radius:18px;
+                            background:linear-gradient(135deg,rgba(255,165,0,0.08),rgba(255,85,0,0.05));
+                            border:1px solid rgba(255,130,0,0.15);margin-bottom:16px;">
+                    <div
+                        style="width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#ff8c00,#ff4500);
+                                display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;">
+                        🥭</div>
+                    <div style="flex:1;">
+                        <p style="font-weight:800;font-size:0.95rem;color:var(--color-text,#1a0f05);margin:0 0 2px;">
+                            Raw Pressery Alphonso Mango Juice</p>
+                        <p style="font-size:0.78rem;color:var(--color-text,#1a0f05);opacity:0.5;margin:0;">
+                            Cold Pressed · GI Certified · 200ml</p>
+                    </div>
+                    <div style="text-align:right;flex-shrink:0;">
+                        <p id="co-unit-price" style="font-weight:900;font-size:1.1rem;
+                            background:linear-gradient(135deg,#ff8c00,#ff4500);
+                            -webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:0;">₹120</p>
+                        <p style="font-size:0.72rem;color:var(--color-text,#1a0f05);opacity:0.4;margin:2px 0 0;">per
+                            bottle</p>
+                    </div>
+                </div>
+
+                <!-- Qty Adjuster inside modal -->
+                <div
+                    style="display:flex;align-items:center;justify-content:space-between;
+                            padding:16px 20px;border-radius:14px;border:1px solid rgba(26,15,5,0.08);margin-bottom:16px;">
+                    <span style="font-size:0.8rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+                                 color:var(--color-text,#1a0f05);opacity:0.5;">Quantity</span>
+                    <div style="display:flex;align-items:center;gap:16px;">
+                        <button id="co-qty-minus" aria-label="Decrease quantity" style="width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(26,15,5,0.15);
+                                   background:none;font-size:1.2rem;font-weight:700;cursor:pointer;
+                                   color:var(--color-text,#1a0f05);transition:all 0.2s;">−</button>
+                        <span id="co-qty-display" style="font-size:1.3rem;font-weight:900;min-width:24px;text-align:center;
+                                   color:var(--color-text,#1a0f05);">1</span>
+                        <button id="co-qty-plus" aria-label="Increase quantity" style="width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(26,15,5,0.15);
+                                   background:none;font-size:1.2rem;font-weight:700;cursor:pointer;
+                                   color:var(--color-text,#1a0f05);transition:all 0.2s;">+</button>
+                    </div>
+                </div>
+
+                <!-- Price Breakdown -->
+                <div style="padding:16px 20px;border-radius:14px;background:rgba(26,15,5,0.03);margin-bottom:24px;">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                        <span style="font-size:0.82rem;color:var(--color-text,#1a0f05);opacity:0.55;">Subtotal</span>
+                        <span id="co-subtotal"
+                            style="font-size:0.82rem;font-weight:700;color:var(--color-text,#1a0f05);">₹120</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                        <span style="font-size:0.82rem;color:var(--color-text,#1a0f05);opacity:0.55;">Delivery</span>
+                        <span style="font-size:0.82rem;font-weight:700;color:#22c55e;">FREE ✓</span>
+                    </div>
+                    <div style="height:1px;background:rgba(26,15,5,0.08);margin:12px 0;"></div>
+                    <div style="display:flex;justify-content:space-between;">
+                        <span style="font-size:1rem;font-weight:900;color:var(--color-text,#1a0f05);">Total</span>
+                        <span id="co-total" style="font-size:1.1rem;font-weight:900;
+                            background:linear-gradient(135deg,#ff8c00,#ff4500);
+                            -webkit-background-clip:text;-webkit-text-fill-color:transparent;">₹120</span>
+                    </div>
+                </div>
+
+                <button id="co-proceed-btn" style="width:100%;padding:18px;border-radius:50px;border:none;cursor:pointer;font-weight:800;
+                           font-size:1rem;letter-spacing:0.12em;text-transform:uppercase;
+                           background:linear-gradient(135deg,#ff8c00,#ff4500);color:#fff;
+                           box-shadow:0 8px 30px rgba(255,100,0,0.35);transition:transform 0.2s,box-shadow 0.2s;">
+                    Proceed to Checkout →
+                </button>
+            </div>
+
+            <!-- ── STEP 2: Order Form ── -->
+            <div id="checkout-step-form" style="display:none;padding:20px 28px;">
+
+                <button id="co-back-btn" style="background:none;border:none;cursor:pointer;font-size:0.8rem;font-weight:700;
+                           letter-spacing:0.08em;color:var(--color-text,#1a0f05);opacity:0.5;
+                           padding:0;margin-bottom:20px;display:flex;align-items:center;gap:6px;">
+                    ← Back to order
+                </button>
+
+                <form id="checkout-form" action="https://formspree.io/f/xpwzgvkl" method="POST"
+                    style="display:flex;flex-direction:column;gap:14px;">
+
+                    <!-- Hidden order details sent with the form -->
+                    <input type="hidden" name="product" value="Raw Pressery Alphonso Mango Juice">
+                    <input type="hidden" id="co-form-qty" name="quantity" value="1">
+                    <input type="hidden" id="co-form-price" name="total_price" value="₹120">
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div>
+                            <label
+                                style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+                                          color:var(--color-text,#1a0f05);opacity:0.5;display:block;margin-bottom:6px;">
+                                Full Name *</label>
+                            <input type="text" name="name" id="co-name" required autocomplete="name"
+                                placeholder="Nikul Goyani" style="width:100%;padding:12px 14px;border-radius:12px;font-size:0.9rem;
+                                       border:1.5px solid rgba(26,15,5,0.12);background:rgba(26,15,5,0.03);
+                                       color:var(--color-text,#1a0f05);outline:none;box-sizing:border-box;
+                                       transition:border-color 0.2s;" />
+                        </div>
+                        <div>
+                            <label
+                                style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+                                          color:var(--color-text,#1a0f05);opacity:0.5;display:block;margin-bottom:6px;">
+                                Phone *</label>
+                            <input type="tel" name="phone" id="co-phone" required autocomplete="tel"
+                                placeholder="+91 98765 43210" style="width:100%;padding:12px 14px;border-radius:12px;font-size:0.9rem;
+                                       border:1.5px solid rgba(26,15,5,0.12);background:rgba(26,15,5,0.03);
+                                       color:var(--color-text,#1a0f05);outline:none;box-sizing:border-box;
+                                       transition:border-color 0.2s;" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+                                      color:var(--color-text,#1a0f05);opacity:0.5;display:block;margin-bottom:6px;">
+                            Email *</label>
+                        <input type="email" name="email" id="co-email" required autocomplete="email"
+                            placeholder="you@example.com" style="width:100%;padding:12px 14px;border-radius:12px;font-size:0.9rem;
+                                   border:1.5px solid rgba(26,15,5,0.12);background:rgba(26,15,5,0.03);
+                                   color:var(--color-text,#1a0f05);outline:none;box-sizing:border-box;
+                                   transition:border-color 0.2s;" />
+                    </div>
+
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+                                      color:var(--color-text,#1a0f05);opacity:0.5;display:block;margin-bottom:6px;">
+                            Delivery Address *</label>
+                        <textarea name="address" id="co-address" required rows="3" autocomplete="street-address"
+                            placeholder="Flat 12B, Sunrise Apartments, MG Road, Mumbai 400001" style="width:100%;padding:12px 14px;border-radius:12px;font-size:0.9rem;resize:none;
+                                   border:1.5px solid rgba(26,15,5,0.12);background:rgba(26,15,5,0.03);
+                                   color:var(--color-text,#1a0f05);outline:none;box-sizing:border-box;
+                                   transition:border-color 0.2s;font-family:inherit;"></textarea>
+                    </div>
+
+                    <div>
+                        <label style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+                                      color:var(--color-text,#1a0f05);opacity:0.5;display:block;margin-bottom:6px;">
+                            Delivery Notes (optional)</label>
+                        <input type="text" name="notes" id="co-notes" autocomplete="off"
+                            placeholder="Leave at door, ring bell twice…" style="width:100%;padding:12px 14px;border-radius:12px;font-size:0.9rem;
+                                   border:1.5px solid rgba(26,15,5,0.12);background:rgba(26,15,5,0.03);
+                                   color:var(--color-text,#1a0f05);outline:none;box-sizing:border-box;
+                                   transition:border-color 0.2s;" />
+                    </div>
+
+                    <!-- Order mini-summary -->
+                    <div style="display:flex;justify-content:space-between;align-items:center;
+                                padding:14px 18px;border-radius:14px;
+                                background:linear-gradient(135deg,rgba(255,165,0,0.08),rgba(255,85,0,0.05));
+                                border:1px solid rgba(255,130,0,0.15);">
+                        <span style="font-size:0.82rem;font-weight:700;color:var(--color-text,#1a0f05);opacity:0.6;">
+                            Order total</span>
+                        <span id="co-form-total-display" style="font-size:1.1rem;font-weight:900;
+                                   background:linear-gradient(135deg,#ff8c00,#ff4500);
+                                   -webkit-background-clip:text;-webkit-text-fill-color:transparent;">₹120</span>
+                    </div>
+
+                    <button type="submit" id="co-submit-btn" style="width:100%;padding:18px;border-radius:50px;border:none;cursor:pointer;font-weight:800;
+                               font-size:1rem;letter-spacing:0.12em;text-transform:uppercase;
+                               background:linear-gradient(135deg,#ff8c00,#ff4500);color:#fff;
+                               box-shadow:0 8px 30px rgba(255,100,0,0.35);transition:transform 0.2s,box-shadow 0.2s,opacity 0.2s;
+                               margin-top:4px;">
+                        🥭 Place Order
+                    </button>
+
+                    <p style="text-align:center;font-size:0.7rem;color:var(--color-text,#1a0f05);
+                              opacity:0.35;letter-spacing:0.05em;margin:0;">
+                        🔒 Your information is safe & secure
+                    </p>
+                </form>
+            </div>
+
+            <!-- ── STEP 3: Success ── -->
+            <div id="checkout-step-success" style="display:none;padding:40px 28px;text-align:center;">
+                <div style="font-size:4rem;margin-bottom:16px;animation:bounceIn 0.6s ease;">🥭</div>
+                <h3 style="font-size:1.6rem;font-weight:900;color:var(--color-text,#1a0f05);margin:0 0 10px;">
+                    Order Placed!</h3>
+                <p id="co-success-name"
+                    style="font-size:0.9rem;color:var(--color-text,#1a0f05);opacity:0.6;margin:0 0 24px;">
+                    Thank you! We'll confirm your order via email shortly.</p>
+                <div style="padding:20px;border-radius:18px;
+                            background:linear-gradient(135deg,rgba(255,165,0,0.08),rgba(255,85,0,0.05));
+                            border:1px solid rgba(255,130,0,0.15);margin-bottom:28px;text-align:left;">
+                    <p id="co-success-detail"
+                        style="font-size:0.85rem;color:var(--color-text,#1a0f05);margin:0;line-height:1.7;opacity:0.8;">
+                    </p>
+                </div>
+                <button id="co-done-btn" style="width:100%;padding:16px;border-radius:50px;border:none;cursor:pointer;font-weight:800;
+                           font-size:0.9rem;letter-spacing:0.12em;text-transform:uppercase;
+                           background:linear-gradient(135deg,#ff8c00,#ff4500);color:#fff;
+                           box-shadow:0 8px 30px rgba(255,100,0,0.3);">
+                    Continue Shopping
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <!-- ── END CHECKOUT MODAL ── -->
+
     <!-- Drifting Marquee & Footer (Appears below the 600vh scroll track automatically!) -->
     <div id="footer-section" class="relative w-full z-20 py-24 border-t border-[#1a0f05]/5 overflow-hidden">
 
