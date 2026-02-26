@@ -3,3 +3,5 @@ test_output.txt
 *.log
 .DS_Store
 Thumbs.db
+playwright-report/
+test-results/

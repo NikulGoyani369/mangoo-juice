@@ -1,0 +1,73 @@
+name: Browser Tests (Brave)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Also allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  browser-tests:
+    name: E2E Tests in Brave Browser
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      # ── Install Brave Browser ───────────────────────────────
+      - name: Install Brave Browser
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl apt-transport-https
+          sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
+            https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] \
+            https://brave-browser-apt-release.s3.brave.com/ stable main" | \
+            sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+          sudo apt-get update
+          sudo apt-get install -y brave-browser
+
+      # ── Install Playwright + its own Chromium for fallback ──
+      - name: Install Playwright Chromium
+        run: npx playwright install chromium --with-deps
+
+      # ── Run Jest unit tests first ───────────────────────────
+      - name: Run Jest unit tests
+        run: npm test
+
+      # ── Run Playwright E2E tests against live site ──────────
+      - name: Run Playwright E2E tests (Chromium / Brave engine)
+        run: npx playwright test
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: 0
+        continue-on-error: false
+
+      # ── Upload test report as artifact ──────────────────────
+      - name: Upload Playwright HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      # ── Upload screenshots on failure ───────────────────────
+      - name: Upload failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-failure-screenshots
+          path: test-results/
+          retention-days: 7
