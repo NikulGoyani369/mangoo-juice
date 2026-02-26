@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 /** Brand story page — scroll-reveal sections, timeline, values grid, CTA. */
 export function StoryPage() {
@@ -45,6 +46,11 @@ export function StoryPage() {
 
     return (
         <div className="font-sans bg-[#fdfcf9] dark:bg-[#0d0905] text-[#1a0f05] dark:text-[#f5ede0] min-h-screen pt-24">
+            <Helmet>
+                <title>Our Story | Raw Pressery Alphonso Mango</title>
+                <meta name="description" content="Discover the origins of our 100% pure cold-pressed Alphonso Mango juice. Sourced straight from Ratnagiri, India." />
+                <link rel="canonical" href="https://nikulgoyani369.github.io/mangoo-juice/#/story" />
+            </Helmet>
 
             {/* ── Hero ── */}
             <section className="min-h-screen flex flex-col justify-end pb-20 relative overflow-hidden

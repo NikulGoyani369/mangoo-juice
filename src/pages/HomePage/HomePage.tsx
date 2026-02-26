@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { ScrollSequencer } from '../../components/ScrollSequencer/ScrollSequencer';
 import { StarRating } from '../../components/StarRating/StarRating';
 import { QuantityStepper } from '../../components/QuantityStepper/QuantityStepper';
@@ -39,6 +40,33 @@ export function HomePage({
 
     return (
         <>
+            <Helmet>
+                <title>Raw Pressery Alphonso Mango Juice | Cold Pressed 100% Pure</title>
+                <meta name="description" content="Experience the King of Mangoes. Raw Pressery's Alphonso Mango Juice is cold-pressed from GI-certified Ratnagiri Alphonso mangoes." />
+                <link rel="canonical" href="https://nikulgoyani369.github.io/mangoo-juice/" />
+                <script type="application/ld+json">
+                    {JSON.stringify({
+                        "@context": "https://schema.org/",
+                        "@type": "Product",
+                        "name": "Raw Pressery Alphonso Mango Juice",
+                        "image": [
+                            "https://nikulgoyani369.github.io/mangoo-juice/mango_slice.png"
+                        ],
+                        "description": "Premium 100% pure cold-pressed Alphonso Mango juice sourced from GI-certified Ratnagiri farms.",
+                        "brand": {
+                            "@type": "Brand",
+                            "name": "Raw Pressery"
+                        },
+                        "offers": {
+                            "@type": "Offer",
+                            "priceCurrency": "INR",
+                            "price": "149",
+                            "availability": "https://schema.org/InStock"
+                        }
+                    })}
+                </script>
+            </Helmet>
+
             {/* ── 600vh Scroll Track ── */}
             <div id="scroll-track" className="relative w-full" style={{ height: '600vh' }}>
                 <div id="sticky-section" className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center">
