@@ -6,10 +6,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,900;1,400;1,700;1,900&display=swap');
 
 /* ── Custom Base ── */
-* { cursor: none; }
-a, button { cursor: none; }
+* {
+  cursor: none;
+}
 
-html { scroll-behavior: smooth; }
+a,
+button {
+  cursor: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: 'Inter', ui-sans-serif, system-ui;
@@ -38,8 +46,10 @@ body::before {
 /* ── Fluid Cursor ── */
 #fluid-cursor {
   position: fixed;
-  top: 0; left: 0;
-  width: 12px; height: 12px;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: #ff6b00;
   mix-blend-mode: difference;
@@ -47,8 +57,10 @@ body::before {
   z-index: 10000;
   transition: width 0.3s, height 0.3s, opacity 0.3s;
 }
+
 #fluid-cursor.hovering {
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
   opacity: 0.6;
 }
 
@@ -70,35 +82,17 @@ body::before {
   opacity: 0;
   white-space: nowrap;
 }
+
 #toast.show {
   transform: translateX(-50%) translateY(0);
   opacity: 1;
 }
+
 body.dark #toast {
   background: #f5ede0;
   color: #1a0f05;
 }
 
-/* ── Dark Mode Toggle ── */
-#dark-mode-toggle {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 200;
-  background: rgba(253, 252, 249, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(26, 15, 5, 0.1);
-  border-radius: 50%;
-  width: 48px; height: 48px;
-  font-size: 1.2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-  transition: all 0.3s ease;
-  display: flex; align-items: center; justify-content: center;
-}
-body.dark #dark-mode-toggle {
-  background: rgba(26, 15, 5, 0.85);
-  border-color: rgba(255, 200, 100, 0.15);
-}
 
 /* ── Loader ── */
 #loader {
@@ -112,12 +106,24 @@ body.dark #dark-mode-toggle {
   justify-content: center;
   transition: opacity 1.5s ease;
 }
-body.dark #loader { background: #0d0905; }
+
+body.dark #loader {
+  background: #0d0905;
+}
 
 /* ── Star Rating ── */
-.star-btn { transition: transform 0.15s ease; }
-.star-btn.active svg { fill: #ff6b00; stroke: #ff6b00; }
-.star-btn:hover { transform: scale(1.2); }
+.star-btn {
+  transition: transform 0.15s ease;
+}
+
+.star-btn.active svg {
+  fill: #ff6b00;
+  stroke: #ff6b00;
+}
+
+.star-btn:hover {
+  transform: scale(1.2);
+}
 
 /* ── Gradient Text ── */
 .grad-text {
@@ -128,8 +134,15 @@ body.dark #loader { background: #0d0905; }
 }
 
 /* ── Glow ── */
-.text-glow-light { text-shadow: 0 0 60px rgba(255, 140, 0, 0.3); }
+.text-glow-light {
+  text-shadow: 0 0 60px rgba(255, 140, 0, 0.3);
+}
 
 /* ── Pointer Events Helpers ── */
-.pointer-events-auto { pointer-events: auto; }
-.pointer-events-none { pointer-events: none; }
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}

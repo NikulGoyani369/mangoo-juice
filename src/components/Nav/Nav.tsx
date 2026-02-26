@@ -57,11 +57,11 @@ export function Nav({ cartCount, isDark, onToggleDark, onCartClick }: Props) {
 
                 {/* Dark mode */}
                 <button
-                    id="dark-mode-toggle"
                     onClick={onToggleDark}
                     aria-label="Toggle dark mode"
-                    className="ml-4 w-9 h-9 rounded-full border border-[#1a0f05]/10 dark:border-white/10
-                     flex items-center justify-center text-base hover:border-orange-400 transition-colors"
+                    className="ml-4 w-10 h-10 rounded-full border border-[#1a0f05]/10 dark:border-white/10
+                     flex items-center justify-center text-base hover:border-orange-400 transition-colors
+                     bg-white/50 dark:bg-white/5 shadow-sm"
                 >
                     {isDark ? '☀️' : '🌙'}
                 </button>
