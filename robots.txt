@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Primary sitemap
+Sitemap: https://nikulogoyani369.github.io/mangoo-juice/sitemap.xml
+
+# Disallow dev/test files from being indexed
+Disallow: /node_modules/
+Disallow: /main.test.js
+Disallow: /jest.config.js
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /.github/
+
+# Allow all product images and assets
+Allow: /*.jpg$
+Allow: /*.png$
+Allow: /index.html
+Allow: /main.js
+Allow: /manifest.json
+Allow: /sitemap.xml

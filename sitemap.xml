@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://nikulogoyani369.github.io/mangoo-juice/</loc>
+    <lastmod>2026-02-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://nikulogoyani369.github.io/mangoo-juice/mango_bottle.png</image:loc>
+      <image:title>Raw Pressery Alphonso Mango Juice Bottle</image:title>
+      <image:caption>100% cold-pressed Alphonso mango juice from Ratnagiri, Maharashtra</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nikulogoyani369.github.io/mangoo-juice/mango_slice.png</image:loc>
+      <image:title>Fresh Alphonso Mango Slice</image:title>
+      <image:caption>GI-certified Ratnagiri Alphonso mango — the king of mangoes</image:caption>
+    </image:image>
+  </url>
+
+</urlset>

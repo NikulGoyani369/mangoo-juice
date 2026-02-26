@@ -1,0 +1,41 @@
+{
+    "name": "Raw Pressery — Alphonso Mango Juice",
+    "short_name": "Mangoo Juice",
+    "description": "100% cold-pressed Alphonso mango juice from GI-certified Ratnagiri mangoes. No preservatives. Pure liquid gold.",
+    "start_url": "/mangoo-juice/",
+    "scope": "/mangoo-juice/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#fdfcf9",
+    "theme_color": "#ff5500",
+    "lang": "en",
+    "categories": [
+        "food",
+        "shopping",
+        "lifestyle"
+    ],
+    "icons": [
+        {
+            "src": "mango_slice.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "mango_bottle.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "mango_bottle.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "label": "Alphonso Mango Juice Product Page"
+        }
+    ],
+    "related_applications": [],
+    "prefer_related_applications": false
+}
