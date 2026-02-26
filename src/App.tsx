@@ -72,9 +72,19 @@ export default function App() {
     );
 }
 
+interface AnimatedRoutesProps {
+    quantity: number;
+    cartCount: number;
+    isDark: boolean;
+    setQuantity: (q: number) => void;
+    addToCart: (q: number) => void;
+    showToast: (msg: string) => void;
+    openCheckout: () => void;
+}
+
 function AnimatedRoutes({
     quantity, cartCount, isDark, setQuantity, addToCart, showToast, openCheckout
-}: any) {
+}: AnimatedRoutesProps) {
     const location = useLocation();
 
     return (
