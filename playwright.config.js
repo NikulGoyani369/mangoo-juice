@@ -1,19 +1,25 @@
-// @ts-check
-const { defineConfig, devices } = require('@playwright/test');
+import { defineConfig, devices } from '@playwright/test';
 
-module.exports = defineConfig({
+export default defineConfig({
     testDir: './e2e',
     timeout: 30_000,
     retries: 1,
     reporter: [['html', { open: 'never' }], ['list']],
 
     use: {
-        // Run tests against the live GitHub Pages site
-        baseURL: 'https://nikulgoyani369.github.io/mangoo-juice/',
+        // Run tests locally against the preview build
+        baseURL: 'http://localhost:4173/mangoo-juice/',
         headless: true,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure',
         trace: 'on-first-retry',
+    },
+
+    webServer: {
+        command: 'npm run build && npm run preview',
+        port: 4173,
+        reuseExistingServer: !process.env.CI,
+        timeout: 120000,
     },
 
     projects: [

@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/mangoo-juice/sw.js', { scope: '/mangoo-juice/' })})}

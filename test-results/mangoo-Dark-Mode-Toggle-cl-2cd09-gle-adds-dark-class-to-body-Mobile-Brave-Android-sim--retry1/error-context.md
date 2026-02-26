@@ -1,0 +1,81 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic [ref=e3]: 🥭
+  - navigation [ref=e4]:
+    - link "Raw Pressery" [ref=e5]:
+      - /url: "#/"
+    - generic [ref=e6]:
+      - button "Play music" [ref=e7]:
+        - img [ref=e8]
+        - generic [ref=e10]: Sound
+      - link "Product" [ref=e11]:
+        - /url: "#/"
+      - link "Our Story" [ref=e12]:
+        - /url: "#/story"
+      - button "View cart (0 items)" [ref=e13]: Cart
+      - button "Toggle dark mode" [ref=e14]: 🌙
+  - main [ref=e15]:
+    - generic [ref=e17]:
+      - generic:
+        - generic [ref=e19]:
+          - paragraph [ref=e20]: Cold Pressed Premium
+          - heading "ALPHANSO" [level=1] [ref=e21]
+          - paragraph [ref=e22]: The King of Mangoes, cold-pressed.
+        - generic:
+          - paragraph: GI Certified · Ratnagiri · Maharashtra
+          - heading "Nothing but mango." [level=2]:
+            - text: Nothing
+            - text: but mango.
+          - paragraph: Hand-picked at the peak of ripeness. Cold-pressed within 90 minutes. Zero preservatives. Zero compromise.
+          - generic:
+            - generic: 🌿 0 Additives
+            - generic: ❄️ Cold Pressed
+            - generic: 🏅 GI Certified
+        - generic:
+          - generic:
+            - paragraph: ₹120
+            - paragraph: ₹150
+            - generic:
+              - generic: 🌍
+              - generic: Prices shown for Global
+          - generic:
+            - generic:
+              - generic:
+                - button "Rate 1 star":
+                  - img
+                - button "Rate 2 stars":
+                  - img
+                - button "Rate 3 stars":
+                  - img
+                - button "Rate 4 stars":
+                  - img
+                - button "Rate 5 stars":
+                  - img
+              - paragraph: Tap to rate
+          - generic:
+            - generic:
+              - button "Decrease quantity": −
+              - generic: "1"
+              - button "Increase quantity": +
+          - button "Secure Your Bottle" [ref=e25]:
+            - generic [ref=e26]: Secure Your Bottle
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]: ✦ PURE ALPHONSO ✦ NO PRESERVATIVES ✦ COLD-PRESSED ✦ 100% RAW ✦ GI-CERTIFIED RATNAGIRI ✦ NEVER CONCENTRATED ✦
+        - generic [ref=e30]: ✦ PURE ALPHONSO ✦ NO PRESERVATIVES ✦ COLD-PRESSED ✦ 100% RAW ✦ GI-CERTIFIED RATNAGIRI ✦ NEVER CONCENTRATED ✦
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - paragraph [ref=e33]: © 2026 Raw Pressery. All rights reserved.
+          - paragraph [ref=e34]: Made with ♥ by Nikul Goyani
+        - generic [ref=e35]:
+          - link "Instagram" [ref=e36]:
+            - /url: "#"
+          - link "Twitter" [ref=e37]:
+            - /url: "#"
+          - link "FAQ" [ref=e38]:
+            - /url: "#"
+          - link "Contact" [ref=e39]:
+            - /url: "#"
+```

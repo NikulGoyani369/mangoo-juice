@@ -1,5 +1,4 @@
-// @ts-check
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test';
 
 const BASE = 'https://nikulgoyani369.github.io/mangoo-juice/';
 
@@ -31,7 +30,7 @@ test.describe('Page Load & Core Elements', () => {
 
     test('navigation bar is visible', async ({ page }) => {
         await page.goto(BASE);
-        await expect(page.locator('#main-nav')).toBeVisible();
+        await expect(page.locator('nav')).toBeVisible();
     });
 
     test('page has correct meta description', async ({ page }) => {
@@ -91,32 +90,32 @@ test.describe('Dark Mode Toggle', () => {
 
     test('dark mode toggle button is visible', async ({ page }) => {
         await page.goto(BASE);
-        await expect(page.locator('#dark-mode-toggle')).toBeVisible();
+        await expect(page.locator('button[aria-label="Toggle dark mode"]')).toBeVisible();
     });
 
-    test('clicking dark mode toggle adds dark-mode class to body', async ({ page }) => {
+    test('clicking dark mode toggle adds dark class to body', async ({ page }) => {
         await page.goto(BASE);
-        await page.locator('#dark-mode-toggle').click();
+        await page.locator('button[aria-label="Toggle dark mode"]').click();
         const hasDark = await page.evaluate(() =>
-            document.body.classList.contains('dark-mode')
+            document.body.classList.contains('dark')
         );
         expect(hasDark).toBe(true);
     });
 
     test('clicking dark mode toggle twice reverts to light mode', async ({ page }) => {
         await page.goto(BASE);
-        const btn = page.locator('#dark-mode-toggle');
+        const btn = page.locator('button[aria-label="Toggle dark mode"]');
         await btn.click();
         await btn.click();
         const hasDark = await page.evaluate(() =>
-            document.body.classList.contains('dark-mode')
+            document.body.classList.contains('dark')
         );
         expect(hasDark).toBe(false);
     });
 
     test('dark mode preference persists in localStorage', async ({ page }) => {
         await page.goto(BASE);
-        await page.locator('#dark-mode-toggle').click();
+        await page.locator('button[aria-label="Toggle dark mode"]').click();
         const stored = await page.evaluate(() => localStorage.getItem('darkMode'));
         expect(stored).toBe('true');
     });
@@ -277,7 +276,7 @@ test.describe('SEO & Accessibility', () => {
     test('page is mobile responsive', async ({ page }) => {
         await page.setViewportSize({ width: 390, height: 844 }); // iPhone 14
         await page.goto(BASE);
-        const nav = page.locator('#main-nav');
+        const nav = page.locator('nav');
         await expect(nav).toBeVisible();
     });
 
