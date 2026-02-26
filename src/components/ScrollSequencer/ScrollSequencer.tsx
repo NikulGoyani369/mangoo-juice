@@ -73,7 +73,7 @@ export function ScrollSequencer({ onStageChange, canvasBg }: Props) {
                 count++;
                 setLoaded(count);
                 if (count === 1) { drawFrame(0); }
-                if (count === CONFIG.FRAME_COUNT) { setReady(true); }
+                if (count === Math.min(15, CONFIG.FRAME_COUNT)) { setReady(true); }
             };
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
