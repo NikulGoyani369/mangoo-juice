@@ -435,10 +435,18 @@
                             Nothing added. Nothing removed.</p>
 
                         <div class="mt-12 flex items-start justify-center gap-6 relative z-10">
-                            <span
+                            <span id="original-price"
                                 class="text-2xl mt-4 font-normal text-[#1a0f05]/30 line-through tracking-wider">₹150</span>
-                            <span
+                            <span id="sale-price"
                                 class="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-orange-400 via-orange-500 to-red-600 drop-shadow-2xl">₹120</span>
+                        </div>
+                        <!-- Geo Location Badge -->
+                        <div id="geo-badge"
+                            class="flex items-center gap-2 mt-3 relative z-10 opacity-0 transition-opacity duration-500">
+                            <span id="geo-flag" class="text-lg">🌍</span>
+                            <span id="geo-label"
+                                class="text-[0.65rem] uppercase tracking-[0.3em] font-bold text-[#1a0f05]/40">Detecting
+                                location...</span>
                         </div>
 
                         <!-- Star Rating -->

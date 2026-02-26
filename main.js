@@ -212,6 +212,86 @@ window.addEventListener('resize', () => {
 }, { passive: true });
 
 /* -------------------------------------------------------------
+   4. GEO-LOCATION BASED PRICING
+   ------------------------------------------------------------- */
+const PRICES = {
+    // [currency symbol, sale price, original price, country label, flag emoji]
+    IN: { symbol: '₹', sale: 120, original: 150, label: 'India', flag: '🇮🇳' },
+    US: { symbol: '$', sale: 1.99, original: 2.49, label: 'United States', flag: '🇺🇸' },
+    GB: { symbol: '£', sale: 1.59, original: 1.99, label: 'United Kingdom', flag: '🇬🇧' },
+    DE: { symbol: '€', sale: 1.79, original: 2.29, label: 'Germany', flag: '🇩🇪' },
+    FR: { symbol: '€', sale: 1.79, original: 2.29, label: 'France', flag: '🇫🇷' },
+    IT: { symbol: '€', sale: 1.79, original: 2.29, label: 'Italy', flag: '🇮🇹' },
+    ES: { symbol: '€', sale: 1.79, original: 2.29, label: 'Spain', flag: '🇪🇸' },
+    NL: { symbol: '€', sale: 1.79, original: 2.29, label: 'Netherlands', flag: '🇳🇱' },
+    AU: { symbol: 'A$', sale: 2.99, original: 3.99, label: 'Australia', flag: '🇦🇺' },
+    CA: { symbol: 'C$', sale: 2.69, original: 3.39, label: 'Canada', flag: '🇨🇦' },
+    AE: { symbol: 'AED', sale: 7.29, original: 8.99, label: 'UAE', flag: '🇦🇪' },
+    SG: { symbol: 'S$', sale: 2.69, original: 3.49, label: 'Singapore', flag: '🇸🇬' },
+    JP: { symbol: '¥', sale: 289, original: 369, label: 'Japan', flag: '🇯🇵' },
+    DEFAULT: { symbol: '₹', sale: 120, original: 150, label: 'Global', flag: '🌍' }
+};
+
+const salePriceEl = document.getElementById('sale-price');
+const originalPriceEl = document.getElementById('original-price');
+const geoBadge = document.getElementById('geo-badge');
+const geoFlag = document.getElementById('geo-flag');
+const geoLabel = document.getElementById('geo-label');
+
+function formatPrice(symbol, amount) {
+    // Keep decimals only when needed (e.g. $1.99 but ₹120)
+    const formatted = Number.isInteger(amount) ? amount : amount.toFixed(2);
+    return `${symbol}${formatted}`;
+}
+
+function applyPricing(countryCode) {
+    const pricing = PRICES[countryCode] || PRICES.DEFAULT;
+
+    // Animate price out → update → animate in
+    salePriceEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    originalPriceEl.style.transition = 'opacity 0.4s ease';
+    salePriceEl.style.opacity = '0';
+    salePriceEl.style.transform = 'scale(0.85)';
+    originalPriceEl.style.opacity = '0';
+
+    setTimeout(() => {
+        salePriceEl.textContent = formatPrice(pricing.symbol, pricing.sale);
+        originalPriceEl.textContent = formatPrice(pricing.symbol, pricing.original);
+
+        salePriceEl.style.opacity = '1';
+        salePriceEl.style.transform = 'scale(1)';
+        originalPriceEl.style.opacity = '1';
+
+        // Update geo badge
+        geoFlag.textContent = pricing.flag;
+        geoLabel.textContent = `Prices shown for ${pricing.label}`;
+        geoBadge.style.opacity = '1';
+    }, 400);
+}
+
+function getGeoPrice() {
+    // ipapi.co is a free, no-key-required geolocation API
+    fetch('https://ipapi.co/json/')
+        .then(res => res.json())
+        .then(data => {
+            const country = data.country_code || 'DEFAULT';
+            applyPricing(country);
+        })
+        .catch(() => {
+            // Silently fall back to default (India) if geo lookup fails
+            applyPricing('DEFAULT');
+            geoFlag.textContent = '🌍';
+            geoLabel.textContent = 'Global pricing';
+            geoBadge.style.opacity = '1';
+        });
+}
+
+// Kick off geo price detection on load
+getGeoPrice();
+
+
+
+/* -------------------------------------------------------------
    4. CART SYSTEM
    ------------------------------------------------------------- */
 let cartCount = 0;
